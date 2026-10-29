@@ -44,10 +44,21 @@ Os seis componentes da busca competitiva foram especificados e justificados form
 - O jogo atinge seu término quando todas as fileiras forem esvaziadas:
   $$\text{TESTE-TERMINAL}((\vec{P}, j)) \iff \sum_{i} p_i = 0$$
 
-### 5. $\text{UTILIDADE}(s, \text{MAX})$
-- **Ponto de vista estrito de MAX** retornado como um **único número**:
-  Na variante Misère, o agente que retira o último palito é declarado perdedor. Ao atingir o estado terminal com o tabuleiro vazio, $j = \text{JOGADOR}(s)$ indica quem jogaria o próximo lance (isto é, o adversário do jogador que acabou de tirar o último palito). Portanto:
-  $$\text{UTILIDADE}(s, \text{MAX}) = \begin{cases} +1.0, & \text{se } \text{JOGADOR}(s) = \text{MAX} \text{ (MIN retirou o último palito e perdeu)} \\ -1.0, & \text{se } \text{JOGADOR}(s) = \text{MIN} \text{ (MAX retirou o último palito e perdeu)} \end{cases}$$
+### 5. UTILIDADE(s, MAX)
+**Ponto de vista estrito de MAX** retornado como um **único número**.
+
+Na variante Misère, o agente que retira o último palito é declarado perdedor. Ao atingir o estado terminal com o tabuleiro vazio, $j = \text{JOGADOR}(s)$ indica quem jogaria o próximo lance (isto é, o adversário do jogador que acabou de retirar o último palito):
+
+$$
+\text{UTILIDADE}(s, \text{MAX}) =
+\begin{cases}
++1.0, & \text{se } \text{JOGADOR}(s) = \text{MAX} \quad (\text{MIN retirou o último palito e perdeu}) \\
+-1.0, & \text{se } \text{JOGADOR}(s) = \text{MIN} \quad (\text{MAX retirou o último palito e perdeu})
+\end{cases}
+$$
+
+- Se `JOGADOR(s) == MAX`: MIN jogou por último, esvaziou o tabuleiro e foi forçado a pegar o último palito. Logo, MIN perde e **MAX vence (+1.0)**.
+- Se `JOGADOR(s) == MIN`: MAX jogou por último, esvaziou o tabuleiro e foi forçado a pegar o último palito. Logo, **MAX perde (-1.0)**.
 
 ### 6. Fator de Ramificação ($b$) e Profundidade ($m$) Estimados
 - Para a instância canônica $\vec{P} = (3, 4, 5)$:
